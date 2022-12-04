@@ -7,9 +7,6 @@ namespace ImuFusion
     {
         public const string DLL_NAME = "ImuFusion.Native";
 
-        [DllImport(DLL_NAME, EntryPoint = "add", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int Add(int a, int b);
-
         [DllImport(DLL_NAME, EntryPoint = "QuaternionToEuler", CallingConvention = CallingConvention.Cdecl)]
         public static extern Euler QuaternionToEuler(Quaternion quaternion);
 
