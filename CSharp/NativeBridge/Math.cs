@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace ImuFusion
 {
     public static class Math
@@ -20,6 +22,12 @@ namespace ImuFusion
             this.Y = y;
             this.Z = z;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Dot(Vector lhs, Vector rhs) { return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z; }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector operator*(float s, Vector v) { return new Vector(v.X * s, v.Y * s, v.Z * s); }
     }
 
     public struct Quaternion

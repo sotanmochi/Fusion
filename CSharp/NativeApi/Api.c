@@ -15,6 +15,11 @@
 
 #include <stdlib.h>
 
+EXPORT_API FusionEuler QuaternionToEuler(FusionQuaternion quaternion)
+{
+    return FusionQuaternionToEuler(quaternion);
+}
+
 EXPORT_API FusionAhrs* CreateAhrs()
 {
     FusionAhrs* ahrs = (FusionAhrs*)malloc(sizeof(FusionAhrs));
@@ -37,7 +42,46 @@ EXPORT_API FusionQuaternion GetQuaternion(FusionAhrs* ahrs)
     return FusionAhrsGetQuaternion(ahrs);
 }
 
-EXPORT_API FusionEuler QuaternionToEuler(FusionQuaternion quaternion)
+EXPORT_API FusionVector GetEarthAcceleration(FusionAhrs* ahrs)
 {
-    return FusionQuaternionToEuler(quaternion);
+    return FusionAhrsGetEarthAcceleration(ahrs);
+}
+
+EXPORT_API FusionAhrsSettings* CreateAhrsSettings(float gain, float accelerationRejection, float magneticRejection, unsigned int rejectionTimeout)
+{
+    FusionAhrsSettings* ahrsSettings = (FusionAhrsSettings*)malloc(sizeof(FusionAhrsSettings));
+
+    ahrsSettings->gain = gain;
+    ahrsSettings->accelerationRejection = accelerationRejection;
+    ahrsSettings->magneticRejection = magneticRejection;
+    ahrsSettings->rejectionTimeout = rejectionTimeout;
+
+    return ahrsSettings;
+}
+
+EXPORT_API void ReleaseAhrsSettings(FusionAhrsSettings* ahrsSettings)
+{
+    free(ahrsSettings);
+}
+
+EXPORT_API void SetAhrsSettings(FusionAhrs* ahrs, FusionAhrsSettings* ahrsSettings)
+{
+    FusionAhrsSetSettings(ahrs, ahrsSettings);
+}
+
+EXPORT_API FusionOffset* CreateOffset(unsigned int sampleRate)
+{
+    FusionOffset* offset = (FusionOffset*)malloc(sizeof(FusionOffset));
+    FusionOffsetInitialise(offset, sampleRate);
+    return offset;
+}
+
+EXPORT_API void ReleaseOffset(FusionOffset* offset)
+{
+    free(offset);
+}
+
+EXPORT_API FusionVector OffsetUpdate(FusionOffset* offset, FusionVector gyroscope)
+{
+    return FusionOffsetUpdate(offset, gyroscope);
 }
